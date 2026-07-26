@@ -40,6 +40,7 @@ public class Lesson2 {
         double bmi = weight / (heightInMeters * heightInMeters);
         System.out.printf("Ваш индекс массы тела: %.1f%n", bmi);
 
+
         scanner.close();
         }
     }
