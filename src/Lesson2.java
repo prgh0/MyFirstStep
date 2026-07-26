@@ -38,7 +38,7 @@ public class Lesson2 {
         System.out.println("Через 10 лет вам будет " + (age + 10));
         double heightInMeters = weight / 100.0;
         double bmi = weight / (heightInMeters * heightInMeters);
-        System.out.println("Ваш индекс массы тела: " + bmi);
+        System.out.printf("Ваш индекс массы тела: %.1f%n", bmi);
 
         scanner.close();
         }
