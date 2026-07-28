@@ -1,8 +1,10 @@
 import java.util.Scanner;
+import java.util.Random;
 
 public class GameQuest {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        Random random = new Random();
 
         /// --- ПЕРЕМЕННЫЙ ИГРОВКА ---
         String name;
@@ -15,10 +17,10 @@ public class GameQuest {
         // --- ВВОД ИМЕНИ ---
         System.out.print("Введите имя своего героя: ");
         name = scanner.nextLine();
-        System.out.println("Доброй пожаловать, " + name + "!");
+        System.out.println("Добро пожаловать, " + name + "!");
 
-        // -- ГЛАВЫНЙ ЦИКЛ ИГРЫ ---
-        while (!gameOver && lives >0) {
+        // -- ГЛАВНЫЙ ЦИКЛ ИГРЫ ---
+        while (!gameOver && lives > 0) {
             System.out.println("\n--- Что делаем? ---");
             System.out.println("1. Пойти в лес");
             System.out.println("2. Пойти к замку");
@@ -31,28 +33,34 @@ public class GameQuest {
             scanner.nextLine(); // Съедаем Enter
 
             // --- ОБРАБОТКА ВЫБОРА ---
-            if (choice ==1) {
+            if (choice == 1) {
                 // ЛЕС
-                System.out.println("Ты пошел в лес. Вдруг из кустов выбегает волк!");
-                System.out.println("Будешь драться (1) или убегать (2)? ");
-                int action = scanner.nextInt();
-                scanner.nextLine();
+                int number = random.nextInt(10);
 
-                if (action == 1) {
-                    if (hasSword) {
-                        System.out.println("Ты достал меч и убил волка! +10 золота.");
-                        gold +=10;
+                if (number < 5) {
+                    System.out.println("Ты спокойно прошел по лесу.");
+                } else {
+                    System.out.println("Ты пошел в лес. Вдруг из кустов выбегает волк!");
+                    System.out.println("Будешь драться (1) или убегать (2)? ");
+                    int action = scanner.nextInt();
+                    scanner.nextLine();
+
+                    if (action == 1) {
+                        if (hasSword) {
+                            System.out.println("Ты достал меч и убил волка! +10 золота.");
+                            gold += 10;
+                        } else {
+                            System.out.println("У тебя нет оружия! Волк тебя покусал. -1 жизнь.");
+                            lives--;
+                        }
+                    } else if (action == 2) {
+                        System.out.println("Ты убежал, но потерял 3 золота.");
+                        gold -= 3;
+                        if (gold < 0) gold = 0;
                     } else {
-                        System.out.println("У тебя нет оружия! Волк тебя покусал. -1 жизнь.");
+                        System.out.println("Ты замешкался и волк укусил тебя! -1 жизнь.");
                         lives--;
                     }
-                } else if (action == 2) {
-                    System.out.println("Ты убежал, но потерял 3 золота.");
-                    gold -= 3;
-                    if (gold < 0) gold = 0; // Чтобы золото не уходило в минус
-                } else {
-                    System.out.println("Ты замешкался и волк укусил тебя! -1 жизнь.");
-                    lives --;
                 }
             } else if (choice == 2) {
                 // ЗАМОК
@@ -82,9 +90,14 @@ public class GameQuest {
                         System.out.println("У тебя нет денег. Рыцарь смеется над тобой.");
                     }
                 } else if (tavernAction == 2) {
-                    System.out.println("Ты играешь в кости. Тебе выпало 6!");
-                    System.out.println("Рыцарь в восторге и дает тебе старый меч.");
-                    hasSword = true;
+                    int dice = random.nextInt(6) + 1;
+                    System.out.println("Ты играешь в кости. Тебе выпало " + dice + "!");
+                    if (dice == 6) {
+                        System.out.println("Рыцарь в восторге и дает тебе старый меч.");
+                        hasSword = true;
+                    } else {
+                        System.out.println("Рыцарь смеется: 'Не повезло, дружок!'");
+                    }
                 } else {
                     System.out.println("Ты ничего не выбрал и просто ушел.");
                 }
@@ -110,7 +123,7 @@ public class GameQuest {
             }
         }
         /// --- КОНЕЦ ИГРЫ ---
-        if (lives < 0) {
+        if (lives <= 0) {
             System.out.println("\nТы погиб! Игра окончена.");
         } else {
             System.out.println("\nТы победил! Поздравляю, " + name + "!");
